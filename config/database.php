@@ -90,6 +90,24 @@ return [
             'prefix' => '',
             'prefix_indexes' => true,
         ],
+        'conexion_db_default' => [
+            'driver' => env('DB_INTERNO_DRIVE'),
+            'host' => env('DB_INTERNO_HOST'),
+            'port' => env('DB_INTERNO_PORT'),
+            'database' => env('DB_INTERNO_DATABASE'),
+            'service_name' => env('DB_INTERNO_SID'),
+            'username' => env('DB_INTERNO_USERNAME'),
+            'password' => env('DB_INTERNO_PASSWORD'),
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+            'prefix' => env('DB_INTERNO_PREFIX'),
+            'prefix_indexes' => true,
+            'strict' => true,
+            'engine' => null,
+            'options' => extension_loaded('pdo_mysql') ? array_filter([
+                PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
+            ]) : [],
+        ]
 
     ],
 

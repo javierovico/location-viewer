@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\LoginController;
+use App\Http\Middleware\AuthMiddleware;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -22,5 +23,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::prefix('v1')->group(function(){
     Route::prefix('auth')->group(function(){
         Route::post('login',[LoginController::class,'login']);
+        Route::middleware(AuthMiddleware::class)->group(function(){
+            Route::get('user',[LoginController::class,'getUser']);
+        });
     });
 });
