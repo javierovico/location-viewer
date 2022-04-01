@@ -16,6 +16,7 @@ class CreateUsuariosTable extends Migration
     {
         Schema::connection(Usuario::CONNECTION_DB)->create(Usuario::tableName, function (Blueprint $table) {
             $table->id(Usuario::COLUMNA_ID);
+            $table->foreignId(Usuario::COLUMNA_SUPERVISOR_ID)->nullable()->references(Usuario::COLUMNA_ID)->on(Usuario::tableName)->nullOnDelete();
             $table->string(Usuario::COLUMNA_USER,100)->unique();
             $table->string(Usuario::COLUMNA_PASSWORD,250);
             $table->string(Usuario::COLUMNA_NOMBRE,100);

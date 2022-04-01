@@ -40,10 +40,10 @@ class Inicializar extends Command
     public function handle()
     {
         Artisan::call('migrate:refresh');
-        $usuario = 'user1';
-        $nombre = 'User1';
-        $password ='user1';
-        Usuario::nuevoUsuario($usuario, $nombre,$password);
+        $user1 = Usuario::nuevoUsuario('user1', 'User1','user1');
+        $user2 = Usuario::nuevoUsuario('user2', 'User2','user2', $user1);
+        $user3 = Usuario::nuevoUsuario('user3', 'User3','user3', $user1);
+        $user4 = Usuario::nuevoUsuario('user4', 'User4','user4', $user1);
         return 0;
     }
 }

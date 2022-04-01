@@ -6,6 +6,8 @@ use Carbon\Carbon;
 use Firebase\JWT\JWT;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Hash;
 
 /**
@@ -22,6 +24,7 @@ class Usuario extends BaseModel
     protected $table = self::tableName;
     protected $primaryKey = self::COLUMNA_ID;
     const COLUMNA_ID = 'id';
+    const COLUMNA_SUPERVISOR_ID = 'supervisor_id';
     const COLUMNA_USER = 'user';
     const COLUMNA_PASSWORD = 'password';
     const COLUMNA_NOMBRE = 'nombre';
@@ -30,13 +33,17 @@ class Usuario extends BaseModel
         self::COLUMNA_PASSWORD
     ];
 
-    public static function nuevoUsuario($usuario, $nombre, $password)
+    public static function nuevoUsuario($usuario, $nombre, $password, ?Usuario $supervisor = null): self
     {
         $nuevo = new self();
         $nuevo->user = $usuario;
         $nuevo->password = $password;
         $nuevo->nombre = $nombre;
+        if ($supervisor) {
+            $nuevo->supervisor()->associate($supervisor);
+        }
         $nuevo->save();
+        return $nuevo;
     }
 
     public static function getByUsername($user): ?self
@@ -76,5 +83,15 @@ class Usuario extends BaseModel
             $secretKey, // The signing key
             'HS512'     // Algorithm used to sign the token, see https://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms-40#section-3
         );
+    }
+
+    public function supervisor(): BelongsTo
+    {
+        return $this->belongsTo(self::class, self::COLUMNA_SUPERVISOR_ID);
+    }
+
+    public function subordinados(): HasMany
+    {
+        return $this->hasMany(self::class, self::COLUMNA_SUPERVISOR_ID);
     }
 }
