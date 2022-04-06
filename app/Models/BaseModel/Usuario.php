@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Hash;
 
 /**
@@ -16,6 +17,7 @@ use Illuminate\Support\Facades\Hash;
  * @see Usuario::setPasswordAttribute()
  * @property string nombre
  * @property integer id
+ * @property Collection<Usuario> $subordinados
  */
 class Usuario extends BaseModel
 {
