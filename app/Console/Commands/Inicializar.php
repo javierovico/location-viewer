@@ -39,6 +39,7 @@ class Inicializar extends Command
      */
     public function handle()
     {
+        Artisan::call('migrate:rollback');
         Artisan::call('migrate:refresh');
         $user1 = Usuario::nuevoUsuario('user1', 'User1','user1');
         $user2 = Usuario::nuevoUsuario('user2', 'User2','user2', $user1);
